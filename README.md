@@ -1,6 +1,9 @@
 # ApplyAI — Job Application Automation SaaS (Prototype)
 
-![ApplyAI Dashboard](screenshot_dashboard.png)
+![ApplyAI Dashboard](screenshot_dashboard_auth.png)
+
+### 🔍 Find Jobs View
+![ApplyAI Find Jobs](screenshot_find_jobs.png)
 
 ### 🗂️ Landing Page View
 ![ApplyAI Landing Page](screenshot_landing.png)
