@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>ApplyAI Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --bg: #030308;
+      --card: #0d0d1a;
+      --card2: #131326;
+      --border: rgba(255, 255, 255, .07);
+      --b2: rgba(255, 255, 255, .12);
+      --ind: #6366f1;
+      --vio: #8b5cf6;
+      --grn: #10b981;
+      --red: #ef4444;
+      --yel: #f59e0b;
+      --txt: #f1f1ff;
+      --mt: #7070a0;
+      --sf: #b0b0d8;
+      --grad: linear-gradient(135deg, #6366f1, #8b5cf6)
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: Inter, sans-serif;
+      display: flex;
+      min-height: 100vh;
+      font-size: 14px
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    /* SIDEBAR */
+    .sb {
+      width: 220px;
+      min-height: 100vh;
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0
+    }
+
+    .sb-logo {
+      padding: 20px 18px;
+      border-bottom: 1px solid var(--border);
+      font-size: 20px;
+      font-weight: 900
+    }
+
+    .sb-logo span {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
+
+    .sb-nav {
+      padding: 12px 8px;
+      flex: 1;
+      overflow-y: auto
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--mt);
+      font-weight: 500;
+      transition: .2s;
+      margin-bottom: 2px
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, .04);
+      color: var(--txt)
+    }
+
+    .nav-item.active {
+      background: rgba(99, 102, 241, .12);
+      color: var(--ind);
+      font-weight: 600
+    }
+
+    .nav-item .icon {
+      font-size: 16px;
+      width: 22px;
+      text-align: center
+    }
+
+    .sb-user {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border)
+    }
+
+    .sb-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff
+    }
+
+    .sb-uname {
+      font-weight: 600;
+      font-size: 13px
+    }
+
+    .sb-uemail {
+      font-size: 11px;
+      color: var(--mt)
+    }
+
+    /* MAIN */
+    main {
+      margin-left: 220px;
+      flex: 1;
+      padding: 28px;
+      min-height: 100vh
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px
+    }
+
+    .greeting h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.5px
+    }
+
+    .greeting p {
+      color: var(--mt);
+      font-size: 13px;
+      margin-top: 3px
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: .2s
+    }
+
+    .btn-p {
+      background: var(--grad);
+      color: #fff
+    }
+
+    .btn-p:hover {
+      opacity: .88
+    }
+
+    .btn-g {
+      background: rgba(255, 255, 255, .05);
+      color: var(--txt);
+      border: 1px solid var(--border)
+    }
+
+    .btn-g:hover {
+      border-color: var(--ind)
+    }
+
+    .btn-sm {
+      padding: 7px 14px;
+      font-size: 12px
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      transition: .25s
+    }
+
+    .stat-card:hover {
+      border-color: rgba(99, 102, 241, .3);
+      transform: translateY(-2px)
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 12px
+    }
+
+    .stat-num {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1px
+    }
+
+    .stat-lbl {
+      font-size: 12px;
+      color: var(--mt);
+      margin-top: 3px;
+      font-weight: 500
+    }
+
+    /* SECTIONS */
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 22px
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px
+    }
+
+    .sec-head h2 {
+      font-size: 16px;
+      font-weight: 700
+    }
+
+    /* FILTERS */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px
+    }
+
+    .filter-pill {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      color: var(--mt);
+      transition: .2s
+    }
+
+    .filter-pill:hover,
+    .filter-pill.active {
+      background: rgba(99, 102, 241, .12);
+      border-color: var(--ind);
+      color: var(--ind)
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px
+    }
+
+    .search-input {
+      flex: 1;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: var(--txt);
+      font-size: 13px;
+      font-family: Inter, sans-serif;
+      outline: none
+    }
+
+    .search-input:focus {
+      border-color: var(--ind)
+    }
+
+    .search-input::placeholder {
+      color: var(--mt)
+    }
+
+    /* JOB CARDS */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px
+    }
+
+    .job-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      cursor: pointer;
+      transition: .25s;
+      position: relative
+    }
+
+    .job-card:hover {
+      border-color: rgba(99, 102, 241, .4);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(99, 102, 241, .12)
+    }
+
+    .jc-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px
+    }
+
+    .jc-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #fff;
+      flex-shrink: 0
+    }
+
+    .jc-sel {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: .2s;
+      flex-shrink: 0
+    }
+
+    .jc-sel.checked {
+      background: var(--ind);
+      border-color: var(--ind)
+    }
+
+    .jc-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      line-height: 1.3
+    }
+
+    .jc-company {
+      font-size: 12px;
+      color: var(--mt)
+    }
+
+    .jc-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px
+    }
+
+    .badge {
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600
+    }
+
+    .b-portal-LinkedIn {
+      background: rgba(10, 102, 194, .15);
+      color: #60a5fa
+    }
+
+    .b-portal-Naukri {
+      background: rgba(234, 88, 12, .15);
+      color: #fb923c
+    }
+
+    .b-portal-Foundit {
+      background: rgba(16, 185, 129, .15);
+      color: #34d399
+    }
+
+    .b-portal-Indeed {
+      background: rgba(99, 102, 241, .15);
+      color: #a5b4fc
+    }
+
+    .b-match {
+      background: rgba(16, 185, 129, .1);
+      color: var(--grn)
+    }
+
+    .b-match-low {
+      background: rgba(245, 158, 11, .1);
+      color: var(--yel)
+    }
+
+    .jc-salary {
+      font-size: 12px;
+      color: var(--sf);
+      margin-top: 8px;
+      font-weight: 500
+    }
+
+    .jc-footer {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px
+    }
+
+    .jc-footer .btn {
+      flex: 1;
+      padding: 7px 10px;
+      font-size: 11px
+    }
+
+    .jc-posted {
+      font-size: 11px;
+      color: var(--mt);
+      margin-top: 6px
+    }
+
+    /* APP TRACKER */
+    .tracker-table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    .tracker-table th {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mt);
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: .4px
+    }
+
+    .tracker-table td {
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      vertical-align: middle
+    }
+
+    .tracker-table tr:last-child td {
+      border: none
+    }
+
+    .tracker-table tr:hover td {
+      background: rgba(255, 255, 255, .02)
+    }
+
+    .status-pill {
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600
+    }
+
+    .sp-applied {
+      background: rgba(99, 102, 241, .12);
+      color: var(--ind)
+    }
+
+    .sp-viewed {
+      background: rgba(245, 158, 11, .12);
+      color: var(--yel)
+    }
+
+    .sp-interview {
+      background: rgba(16, 185, 129, .12);
+      color: var(--grn)
+    }
+
+    .sp-shortlisted {
+      background: rgba(139, 92, 246, .12);
+      color: var(--vio)
+    }
+
+    /* PORTAL HUB */
+    .portal-hub {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px
+    }
+
+    .ph-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+      transition: .25s;
+      display: flex;
+      align-items: center;
+      gap: 14px
+    }
+
+    .ph-card:hover {
+      border-color: rgba(99, 102, 241, .4);
+      transform: translateY(-2px)
+    }
+
+    .ph-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0
+    }
+
+    .ph-card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .ph-card p {
+      font-size: 12px;
+      color: var(--mt)
+    }
+
+    /* PROFILE FORM */
+    .pf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .pf-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .pf-field.full {
+      grid-column: span 2
+    }
+
+    .pf-field label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mt);
+      text-transform: uppercase;
+      letter-spacing: .4px
+    }
+
+    .pf-field input,
+    .pf-field textarea,
+    .pf-field select {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 10px 12px;
+      color: var(--txt);
+      font-size: 13px;
+      font-family: Inter, sans-serif;
+      outline: none
+    }
+
+    .pf-field input:focus,
+    .pf-field textarea:focus {
+      border-color: var(--ind)
+    }
+
+    .pf-field select {
+      cursor: pointer
+    }
+
+    .pf-field input::placeholder,
+    .pf-field textarea::placeholder {
+      color: var(--mt)
+    }
+
+    /* COVER LETTER */
+    .cl-output {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--sf);
+      white-space: pre-wrap;
+      min-height: 200px;
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 16px
+    }
+
+    /* RESUME */
+    .resume-drop {
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 48px;
+      text-align: center;
+      cursor: pointer;
+      transition: .2s
+    }
+
+    .resume-drop:hover {
+      border-color: var(--ind);
+      background: rgba(99, 102, 241, .04)
+    }
+
+    .skills-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px
+    }
+
+    .chip {
+      background: rgba(99, 102, 241, .12);
+      border: 1px solid rgba(99, 102, 241, .25);
+      color: var(--ind);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 12px;
+      font-weight: 500
+    }
+
+    /* PAGE TABS */
+    .page {
+      display: none
+    }
+
+    .page.active {
+      display: block
+    }
+
+    /* AUTH OVERLAY */
+    #auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: #030308;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .auth-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      width: 400px;
+      text-align: center
+    }
+
+    .auth-box h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px
+    }
+
+    .auth-box p {
+      color: var(--mt);
+      font-size: 14px;
+      margin-bottom: 28px
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .auth-input {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--txt);
+      font-size: 14px;
+      font-family: Inter, sans-serif;
+      outline: none
+    }
+
+    .auth-input:focus {
+      border-color: var(--ind)
+    }
+
+    .auth-input::placeholder {
+      color: var(--mt)
+    }
+
+    .auth-hint {
+      font-size: 12px;
+      color: var(--mt);
+      margin-top: 4px
+    }
+
+    .auth-toggle {
+      font-size: 13px;
+      color: var(--mt);
+      margin-top: 14px
+    }
+
+    .auth-toggle a {
+      color: var(--ind);
+      cursor: pointer
+    }
+
+    .demo-notice {
+      background: rgba(99, 102, 241, .08);
+      border: 1px solid rgba(99, 102, 241, .2);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 12px;
+      color: var(--sf);
+      margin-bottom: 16px;
+      text-align: left
+    }
+
+    /* APPLY ANIMATION */
+    @keyframes applying {
+      0% {
+        background-position: 0% 50%
+      }
+
+      100% {
+        background-position: 100% 50%
+      }
+    }
+
+    .applying-bar {
+      height: 3px;
+      background: linear-gradient(90deg, var(--ind), var(--vio), var(--ind));
+      background-size: 200%;
+      animation: applying .8s linear infinite;
+      border-radius: 2px;
+      margin-bottom: 16px
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--card2);
+      border: 1px solid var(--ind);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 13px;
+      z-index: 9999;
+      box-shadow: 0 8px 40px rgba(99, 102, 241, .3);
+      display: none;
+      max-width: 300px
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- AUTH OVERLAY -->
+  <div id="auth-overlay">
+    <div class="auth-box">
+      <div style="font-size:36px;margin-bottom:12px">🤖</div>
+      <h2>Apply<span
+          style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">AI</span></h2>
+      <p>India's smartest job auto-apply platform</p>
+      <div class="demo-notice">💡 <strong>Demo:</strong> email <code>demo@test.com</code> / pass <code>demo123</code>
+      </div>
+      <div id="auth-form" class="auth-form">
+        <input class="auth-input" id="a-email" placeholder="Email address" type="email" />
+        <input class="auth-input" id="a-pass" placeholder="Password" type="password" />
+        <button class="btn btn-p" style="padding:13px" onclick="doLogin()">Sign In →</button>
+      </div>
+      <p id="auth-err" style="color:var(--red);font-size:12px;margin-top:8px;display:none"></p>
+      <p class="auth-toggle">No account? <a onclick="toggleAuthMode()">Sign up free</a></p>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sb">
+    <div class="sb-logo">Apply<span>AI</span></div>
+    <nav class="sb-nav">
+      <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">📊</span>Dashboard</div>
+      <div class="nav-item" onclick="showPage('jobs',this)"><span class="icon">🔍</span>Find Jobs</div>
+      <div class="nav-item" onclick="showPage('applications',this)"><span class="icon">📋</span>Applications</div>
+      <div class="nav-item" onclick="showPage('portals',this)"><span class="icon">🔌</span>Job Portals</div>
+      <div class="nav-item" onclick="showPage('cover',this)"><span class="icon">✍️</span>Cover Letter AI</div>
+      <div class="nav-item" onclick="showPage('resume',this)"><span class="icon">📄</span>Resume</div>
+      <div class="nav-item" onclick="showPage('profile',this)"><span class="icon">👤</span>My Profile</div>
+      <div
+        style="margin-top:16px;padding:12px;background:rgba(99,102,241,.08);border-radius:10px;border:1px solid rgba(99,102,241,.15)">
+        <div style="font-size:11px;font-weight:600;color:var(--ind);margin-bottom:8px">🔌 CHROME EXTENSION</div>
+        <div style="font-size:11px;color:var(--mt);line-height:1.6">Load the <code
+            style="color:var(--sf)">extension/</code> folder in chrome://extensions to auto-fill LinkedIn, Naukri &
+          Foundit</div>
+      </div>
+    </nav>
+    <div class="sb-user">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="sb-avatar" id="sb-av">D</div>
+        <div>
+          <div class="sb-uname" id="sb-name">Demo User</div>
+          <div class="sb-uemail" id="sb-email">demo@test.com</div>
+        </div>
+      </div>
+      <button class="btn btn-g btn-sm" style="width:100%;margin-top:10px" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- DASHBOARD PAGE -->
+    <div class="page active" id="page-dashboard">
+      <div class="topbar">
+        <div class="greeting">
+          <h1 id="greet">👋 Good Evening!</h1>
+          <p id="greet-sub">Your job hunt is on autopilot.</p>
+        </div>
+        <button class="btn btn-p" onclick="showPage('jobs',document.querySelector('[onclick*=jobs]'))">+ Find
+          Jobs</button>
+      </div>
+      <div class="stats" id="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(99,102,241,.12)">📤</div>
+          <div class="stat-num" id="st-applied">0</div>
+          <div class="stat-lbl">Total Applied</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(245,158,11,.12)">👀</div>
+          <div class="stat-num" id="st-viewed">0</div>
+          <div class="stat-lbl">Profile Viewed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(16,185,129,.12)">📞</div>
+          <div class="stat-num" id="st-interviews">0</div>
+          <div class="stat-lbl">Interviews</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(139,92,246,.12)">💼</div>
+          <div class="stat-num" id="st-jobs">50</div>
+          <div class="stat-lbl">Jobs Found Today</div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="sec-head">
+          <h2>Recent Applications</h2><button class="btn btn-g btn-sm"
+            onclick="showPage('applications',document.querySelector('[onclick*=applications]'))">View All</button>
+        </div>
+        <div id="dash-apps">
+          <p style="color:var(--mt);text-align:center;padding:32px">No applications yet. <a
+              style="color:var(--ind);cursor:pointer"
+              onclick="showPage('jobs',document.querySelector('[onclick*=jobs]'))">Find jobs →</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIND JOBS PAGE -->
+    <div class="page" id="page-jobs">
+      <div class="topbar">
+        <div class="greeting">
+          <h1>Find Jobs</h1>
+          <p id="jobs-count" style="color:var(--mt)">Loading jobs...</p>
+        </div>
+        <button class="btn btn-p" onclick="applySelected()">⚡ Apply Selected</button>
+      </div>
+      <div class="section">
+        <div class="search-row">
+          <input class="search-input" id="search-q" placeholder="🔍 Search title, company, skills..."
+            oninput="filterJobs()" />
+          <select class="search-input" id="filter-portal" style="width:150px" onchange="filterJobs()">
+            <option value="All">All Portals</option>
+            <option>LinkedIn</option>
+            <option>Naukri</option>
+            <option>Foundit</option>
+            <option>Indeed</option>
+          </select>
+          <select class="search-input" id="filter-loc" style="width:160px" onchange="filterJobs()">
+            <option value="All">All Locations</option>
+            <option>Bangalore</option>
+            <option>Mumbai</option>
+            <option>Delhi</option>
+            <option>Hyderabad</option>
+            <option>Pune</option>
+            <option>Chennai</option>
+            <option>Remote</option>
+          </select>
+        </div>
+        <div class="filters" id="portal-tabs"></div>
+        <div id="sel-bar"
+          style="display:none;margin-bottom:14px;padding:10px 14px;background:rgba(99,102,241,.1);border-radius:10px;display:flex;align-items:center;justify-content:space-between">
+          <span id="sel-count" style="font-size:13px;color:var(--ind);font-weight:600"></span>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-g btn-sm" onclick="clearSel()">Clear</button>
+            <button class="btn btn-p btn-sm" onclick="applySelected()">⚡ Apply All</button>
+          </div>
+        </div>
+        <div class="jobs-grid" id="jobs-grid">
+          <p style="color:var(--mt);padding:32px">Loading jobs from LinkedIn, Naukri & Foundit...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPLICATIONS PAGE -->
+    <div class="page" id="page-applications">
+      <div class="topbar">
+        <div class="greeting">
+          <h1>Applications</h1>
+          <p style="color:var(--mt)">Track every job you've applied to</p>
+        </div>
+      </div>
+      <div class="section">
+        <div id="apps-container">
+          <p style="color:var(--mt);text-align:center;padding:40px">No applications yet. Start applying from Find Jobs!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PORTALS PAGE -->
+    <div class="page" id="page-portals">
+      <div class="topbar">
+        <div class="greeting">
+          <h1>Job Portals</h1>
+          <p style="color:var(--mt)">Search directly on each portal with your preferences</p>
+        </div>
+      </div>
+      <div class="section" style="margin-bottom:20px">
+        <div class="sec-head">
+          <h2>Quick Search</h2>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+          <input class="search-input" id="ph-q" placeholder="Job title / role" style="flex:2;min-width:160px" />
+          <input class="search-input" id="ph-loc" placeholder="Location" style="flex:1;min-width:100px"
+            value="Bangalore" />
+        </div>
+        <div class="portal-hub">
+          <div class="ph-card" onclick="openPortal('linkedin')">
+            <div class="ph-icon" style="background:rgba(10,102,194,.15)">💼</div>
+            <div>
+              <h3>LinkedIn Jobs</h3>
+              <p>Easy Apply auto-fill via Extension</p>
+            </div>
+          </div>
+          <div class="ph-card" onclick="openPortal('naukri')">
+            <div class="ph-icon" style="background:rgba(234,88,12,.15)">🔶</div>
+            <div>
+              <h3>Naukri.com</h3>
+              <p>India's #1 job portal</p>
+            </div>
+          </div>
+          <div class="ph-card" onclick="openPortal('foundit')">
+            <div class="ph-icon" style="background:rgba(16,185,129,.15)">🟢</div>
+            <div>
+              <h3>Foundit (Monster)</h3>
+              <p>Quick Apply form fill</p>
+            </div>
+          </div>
+          <div class="ph-card" onclick="openPortal('indeed')">
+            <div class="ph-icon" style="background:rgba(99,102,241,.15)">🌐</div>
+            <div>
+              <h3>Indeed India</h3>
+              <p>Millions of listings</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="sec-head">
+          <h2>🔌 Chrome Extension Setup</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+          <div
+            style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center">
+            <div style="font-size:28px;margin-bottom:10px">1️⃣</div>
+            <div style="font-weight:600;margin-bottom:6px">Open Chrome</div>
+            <div style="font-size:12px;color:var(--mt)">Go to <code style="color:var(--ind)">chrome://extensions</code>
+            </div>
+          </div>
+          <div
+            style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center">
+            <div style="font-size:28px;margin-bottom:10px">2️⃣</div>
+            <div style="font-weight:600;margin-bottom:6px">Enable Dev Mode</div>
+            <div style="font-size:12px;color:var(--mt)">Toggle Developer Mode → Load Unpacked</div>
+          </div>
+          <div
+            style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center">
+            <div style="font-size:28px;margin-bottom:10px">3️⃣</div>
+            <div style="font-weight:600;margin-bottom:6px">Select Folder</div>
+            <div style="font-size:12px;color:var(--mt)">Pick the <code style="color:var(--ind)">extension/</code> folder
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COVER LETTER PAGE -->
+    <div class="page" id="page-cover">
+      <div class="topbar">
+        <div class="greeting">
+          <h1>Cover Letter AI</h1>
+          <p style="color:var(--mt)">Generate a personalized cover letter for any job</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="pf-grid">
+          <div class="pf-field"><label>Job Title</label><input id="cl-title" placeholder="Senior React Developer" />
+          </div>
+          <div class="pf-field"><label>Company</label><input id="cl-company" placeholder="Infosys" /></div>
+          <div class="pf-field"><label>Your Name</label><input id="cl-name" placeholder="Rahul Sharma" /></div>
+          <div class="pf-field"><label>Experience</label><input id="cl-exp" placeholder="3 years" /></div>
+          <div class="pf-field full"><label>Your Skills (comma separated)</label><input id="cl-skills"
+              placeholder="React, JavaScript, Node.js, TypeScript" /></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="btn btn-p" onclick="generateCL()">✨ Generate Cover Letter</button>
+          <button class="btn btn-g" onclick="copyCL()">📋 Copy</button>
+        </div>
+        <div class="cl-output" id="cl-output">Your AI-generated cover letter will appear here...</div>
+      </div>
+    </div>
+
+    <!-- RESUME PAGE -->
+    <div class="page" id="page-resume">
+      <div class="topbar">
+        <div class="greeting">
+          <h1>Resume</h1>
+          <p style="color:var(--mt)">Upload and parse your resume with AI</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="resume-drop" id="drop-zone" onclick="document.getElementById('resume-file').click()">
+          <div style="font-size:48px;margin-bottom:16px">📄</div>
+          <h3 style="margin-bottom:8px">Drop your resume here</h3>
+          <p style="color:var(--mt);font-size:13px">PDF or Word file • Click to browse</p>
+          <input type="file" id="resume-file" accept=".pdf,.doc,.docx" style="display:none"
+            onchange="uploadResume(this)" />
+        </div>
+        <div id="resume-result" style="display:none;margin-top:20px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" id="resume-fields"></div>
+          <div style="margin-top:14px">
+            <div
+              style="font-size:12px;font-weight:600;color:var(--mt);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">
+              Extracted Skills</div>
+            <div class="skills-chips" id="resume-skills"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div class="page" id="page-profile">
+      <div class="topbar">
+        <div class="greeting">
+          <h1>My Profile</h1>
+          <p style="color:var(--mt)">Saved to dashboard + Chrome Extension</p>
+        </div>
+        <button class="btn btn-p" onclick="saveProfile()">💾 Save Profile</button>
+      </div>
+      <div class="section">
+        <div class="pf-grid">
+          <div class="pf-field"><label>Full Name</label><input id="pf-name" placeholder="Rahul Sharma" /></div>
+          <div class="pf-field"><label>Email</label><input id="pf-email" type="email" placeholder="rahul@email.com" />
+          </div>
+          <div class="pf-field"><label>Phone</label><input id="pf-phone" placeholder="+91 9876543210" /></div>
+          <div class="pf-field"><label>Location</label><input id="pf-loc" placeholder="Bangalore" /></div>
+          <div class="pf-field"><label>Experience (years)</label><input id="pf-exp" placeholder="3" /></div>
+          <div class="pf-field"><label>Current Salary (LPA)</label><input id="pf-csal" placeholder="8" /></div>
+          <div class="pf-field"><label>Expected Salary (LPA)</label><input id="pf-esal" placeholder="14" /></div>
+          <div class="pf-field"><label>Notice Period (days)</label><input id="pf-notice" placeholder="30" /></div>
+          <div class="pf-field"><label>Preferred Job Type</label>
+            <select id="pf-jtype">
+              <option>Full-time</option>
+              <option>Part-time</option>
+              <option>Contract</option>
+              <option>Remote</option>
+            </select>
+          </div>
+          <div class="pf-field"><label>Salary Min (LPA)</label><input id="pf-smin" placeholder="10" type="number" />
+          </div>
+          <div class="pf-field full"><label>Desired Job Titles (comma separated)</label><input id="pf-titles"
+              placeholder="React Developer, Full Stack Engineer" /></div>
+          <div class="pf-field full"><label>Skills (comma separated)</label><input id="pf-skills"
+              placeholder="React, JavaScript, Node.js, TypeScript, AWS" /></div>
+          <div class="pf-field full"><label>Preferred Locations (comma separated)</label><input id="pf-locs"
+              placeholder="Bangalore, Remote" /></div>
+        </div>
+        <div id="prof-saved"
+          style="display:none;margin-top:14px;padding:12px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:9px;color:var(--grn);font-size:13px">
+          ✅ Profile saved! Extension will use this data to auto-fill forms.</div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = 'http://localhost:8000';
+    let USER = null;
+    let ALL_JOBS = [];
+    let SELECTED = new Set();
+    let USER_APPS = [];
+
+    const PORTAL_COLORS = ['LinkedIn', 'Naukri', 'Foundit', 'Indeed'];
+
+    function showToast(msg, ms = 3000) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.style.display = 'block';
+      clearTimeout(t._to); t._to = setTimeout(() => t.style.display = 'none', ms);
+    }
+
+    // AUTH
+    async function doLogin() {
+      const email = document.getElementById('a-email').value.trim();
+      const pass = document.getElementById('a-pass').value;
+      const err = document.getElementById('auth-err');
+      if (!email || !pass) { err.textContent = 'Fill in all fields'; err.style.display = 'block'; return; }
+      try {
+        const r = await fetch(`${API}/api/auth/login`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password: pass })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || 'Login failed');
+        USER = d;
+        document.getElementById('auth-overlay').style.display = 'none';
+        document.getElementById('sb-name').textContent = d.name;
+        document.getElementById('sb-email').textContent = d.email;
+        document.getElementById('sb-av').textContent = d.name[0].toUpperCase();
+        initApp();
+      } catch (e) { err.textContent = e.message; err.style.display = 'block'; }
+    }
+
+    function signOut() { USER = null; location.reload(); }
+
+    let authMode = 'login';
+    function toggleAuthMode() {
+      authMode = authMode === 'login' ? 'register' : 'login';
+      document.querySelector('.auth-toggle a').textContent = authMode === 'login' ? 'Sign up free' : 'Back to login';
+    }
+
+    // INIT
+    async function initApp() {
+      setGreeting();
+      await loadJobs();
+      await loadStats();
+      await loadApplications();
+      loadProfile();
+    }
+
+    function setGreeting() {
+      const h = new Date().getHours();
+      const g = h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening';
+      document.getElementById('greet').textContent = `👋 Good ${g}, ${USER.name.split(' ')[0]}!`;
+      document.getElementById('greet-sub').textContent = 'Your job hunt is on autopilot.';
+    }
+
+    // JOBS
+    async function loadJobs() {
+      try {
+        const r = await fetch(`${API}/api/jobs`);
+        const d = await r.json();
+        ALL_JOBS = d.jobs || [];
+        renderJobs(ALL_JOBS);
+        document.getElementById('jobs-count').textContent = `${ALL_JOBS.length} jobs found across LinkedIn, Naukri & Foundit`;
+        document.getElementById('st-jobs').textContent = ALL_JOBS.length;
+        renderPortalTabs();
+      } catch (e) { document.getElementById('jobs-count').textContent = 'API offline — showing cached data'; }
+    }
+
+    function renderPortalTabs() {
+      const portals = ['All', ...new Set(ALL_JOBS.map(j => j.portal))];
+      document.getElementById('portal-tabs').innerHTML = portals.map(p =>
+        `<div class="filter-pill${p === 'All' ? ' active' : ''}" onclick="setPortalTab(this,'${p}')">${p}</div>`
+      ).join('');
+    }
+
+    function setPortalTab(el, portal) {
+      document.querySelectorAll('#portal-tabs .filter-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('filter-portal').value = portal;
+      filterJobs();
+    }
+
+    function filterJobs() {
+      const q = document.getElementById('search-q').value.toLowerCase();
+      const portal = document.getElementById('filter-portal').value;
+      const loc = document.getElementById('filter-loc').value;
+      let jobs = ALL_JOBS.filter(j => {
+        const mq = !q || (j.title + j.company + (j.skills || []).join(' ')).toLowerCase().includes(q);
+        const mp = portal === 'All' || j.portal === portal;
+        const ml = loc === 'All' || j.location.includes(loc) || j.location === 'Remote' || j.location === 'Pan India';
+        return mq && mp && ml;
+      });
+      renderJobs(jobs);
+    }
+
+    function avatarColor(company) {
+      const colors = ['#6366f1', '#8b5cf6', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#ec4899'];
+      let h = 0; for (const c of company) h = (h * 31 + c.charCodeAt(0)) & 0xfffffff;
+      return colors[h % colors.length];
+    }
+
+    function renderJobs(jobs) {
+      const grid = document.getElementById('jobs-grid');
+      if (!jobs.length) { grid.innerHTML = '<p style="color:var(--mt);padding:32px;grid-column:1/-1">No jobs match your filters.</p>'; return; }
+      grid.innerHTML = jobs.map(j => {
+        const match = j.match >= 85 ? `<span class="badge b-match">🎯 ${j.match}% Match</span>` :
+          j.match >= 70 ? `<span class="badge b-match-low">🎯 ${j.match}%</span>` : '';
+        const portalCls = `b-portal-${j.portal.replace(/\s.*/, '')}`;
+        const chk = SELECTED.has(j.id) ? 'checked' : '';
+        return `<div class="job-card" id="jc-${j.id}">
+      <div class="jc-top">
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="jc-avatar" style="background:${avatarColor(j.company)}">${j.company[0]}</div>
+          <div><div class="jc-title">${j.title}</div><div class="jc-company">${j.company}</div></div>
+        </div>
+        <div class="jc-sel ${chk}" onclick="toggleSel('${j.id}',this)">
+          ${chk ? '<svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>' : ''}
+        </div>
+      </div>
+      <div class="jc-meta">
+        <span class="badge ${portalCls}">${j.portal}</span>
+        ${match}
+        <span class="badge" style="background:rgba(255,255,255,.04);color:var(--mt)">${j.location}</span>
+      </div>
+      <div class="jc-salary">💰 ${j.salary} · ${j.experience}</div>
+      ${j.skills ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">${j.skills.slice(0, 4).map(s => `<span style="font-size:11px;padding:2px 7px;background:rgba(255,255,255,.04);border-radius:4px;color:var(--mt)">${s}</span>`).join('')}</div>` : ''}
+      <div class="jc-posted">🕐 ${j.posted}</div>
+      <div class="jc-footer">
+        <button class="btn btn-g btn-sm" onclick="event.stopPropagation();window.open('${j.url || '#'}','_blank')">🔗 View Job</button>
+        <button class="btn btn-p btn-sm" onclick="event.stopPropagation();applyJob('${j.id}')">⚡ Apply</button>
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    function toggleSel(id, el) {
+      if (SELECTED.has(id)) { SELECTED.delete(id); el.classList.remove('checked'); el.innerHTML = ''; }
+      else { SELECTED.add(id); el.classList.add('checked'); el.innerHTML = '<svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+      updateSelBar();
+    }
+
+    function updateSelBar() {
+      const bar = document.getElementById('sel-bar');
+      const cnt = document.getElementById('sel-count');
+      if (SELECTED.size > 0) { bar.style.display = 'flex'; cnt.textContent = `${SELECTED.size} job${SELECTED.size > 1 ? 's' : ''} selected`; }
+      else bar.style.display = 'none';
+    }
+    function clearSel() { SELECTED.clear(); updateSelBar(); filterJobs(); }
+
+    async function applyJob(id) {
+      await applyToJobs([id]);
+    }
+
+    async function applySelected() {
+      if (!SELECTED.size) { showToast('Select jobs to apply first!'); return; }
+      await applyToJobs([...SELECTED]);
+      clearSel();
+    }
+
+    async function applyToJobs(ids) {
+      showToast(`⚡ Applying to ${ids.length} job${ids.length > 1 ? 's' : ''}...`);
+      try {
+        const r = await fetch(`${API}/api/apply`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: USER.user_id, job_ids: ids })
+        });
+        const d = await r.json();
+        showToast(`✅ Applied to ${d.applied_count} job${d.applied_count > 1 ? 's' : ''}!`, 4000);
+        await loadStats();
+        await loadApplications();
+        renderDashApps();
+      } catch (e) { showToast('Error — is the backend running?'); }
+    }
+
+    // STATS
+    async function loadStats() {
+      const r = await fetch(`${API}/api/stats/${USER.user_id}`).catch(() => null);
+      if (!r || !r.ok) return;
+      const d = await r.json();
+      document.getElementById('st-applied').textContent = d.total_applied || 0;
+      document.getElementById('st-viewed').textContent = d.viewed || 0;
+      document.getElementById('st-interviews').textContent = d.interviews || 0;
+      document.getElementById('st-jobs').textContent = d.jobs_found_today || 50;
+    }
+
+    // APPLICATIONS
+    async function loadApplications() {
+      const r = await fetch(`${API}/api/applications/${USER.user_id}`).catch(() => null);
+      if (!r || !r.ok) return;
+      const d = await r.json();
+      USER_APPS = d.applications || [];
+      renderApps();
+      renderDashApps();
+    }
+
+    function statusClass(s) {
+      if (s.includes('Interview')) return 'sp-interview';
+      if (s.includes('Viewed')) return 'sp-viewed';
+      if (s.includes('Shortlisted')) return 'sp-shortlisted';
+      return 'sp-applied';
+    }
+
+    function renderApps() {
+      const c = document.getElementById('apps-container');
+      if (!USER_APPS.length) { c.innerHTML = '<p style="color:var(--mt);text-align:center;padding:40px">No applications yet. Start applying from Find Jobs!</p>'; return; }
+      c.innerHTML = `<table class="tracker-table">
+    <thead><tr><th>Job Title</th><th>Company</th><th>Portal</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+    <tbody>${USER_APPS.map(a => `<tr>
+      <td style="font-weight:600">${a.title}</td>
+      <td style="color:var(--mt)">${a.company}</td>
+      <td><span class="badge b-portal-${a.portal.replace(/\s.*/, '')}">${a.portal}</span></td>
+      <td><span class="status-pill ${statusClass(a.status)}">${a.status}</span></td>
+      <td style="color:var(--mt);font-size:12px">${new Date(a.applied_at).toLocaleDateString('en-IN')}</td>
+      <td>${a.url ? `<a href="${a.url}" target="_blank" style="color:var(--ind);font-size:12px">View →</a>` : ''}</td>
+    </tr>`).join('')}</tbody></table>`;
+    }
+
+    function renderDashApps() {
+      const c = document.getElementById('dash-apps');
+      if (!USER_APPS.length) { c.innerHTML = '<p style="color:var(--mt);text-align:center;padding:32px">No applications yet. <a style="color:var(--ind);cursor:pointer" onclick="showPage(\'jobs\',null)">Find jobs →</a></p>'; return; }
+      const recent = USER_APPS.slice(-5).reverse();
+      c.innerHTML = `<table class="tracker-table">
+    <thead><tr><th>Job</th><th>Company</th><th>Portal</th><th>Status</th></tr></thead>
+    <tbody>${recent.map(a => `<tr>
+      <td style="font-weight:600">${a.title}</td>
+      <td style="color:var(--mt)">${a.company}</td>
+      <td><span class="badge b-portal-${a.portal.replace(/\s.*/, '')}">${a.portal}</span></td>
+      <td><span class="status-pill ${statusClass(a.status)}">${a.status}</span></td>
+    </tr>`).join('')}</tbody></table>`;
+    }
+
+    // PORTAL HUB
+    function openPortal(name) {
+      const q = document.getElementById('ph-q').value || 'Software Engineer';
+      const loc = document.getElementById('ph-loc').value || 'Bangalore';
+      const urls = {
+        linkedin: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(loc)}&f_TPR=r604800`,
+        naukri: `https://www.naukri.com/${q.toLowerCase().replace(/\s+/g, '-')}-jobs-in-${loc.toLowerCase().replace(/\s+/g, '-')}`,
+        foundit: `https://www.foundit.in/srp/results?query=${encodeURIComponent(q)}&location=${encodeURIComponent(loc)}`,
+        indeed: `https://in.indeed.com/jobs?q=${encodeURIComponent(q)}&l=${encodeURIComponent(loc)}`,
+      };
+      window.open(urls[name], '_blank');
+    }
+
+    // COVER LETTER
+    async function generateCL() {
+      const title = document.getElementById('cl-title').value;
+      const company = document.getElementById('cl-company').value;
+      const name = document.getElementById('cl-name').value || 'Applicant';
+      const exp = document.getElementById('cl-exp').value || '3 years';
+      const skills = document.getElementById('cl-skills').value.split(',').map(s => s.trim()).filter(Boolean);
+      if (!title || !company) { showToast('Enter job title and company'); return; }
+      const out = document.getElementById('cl-output');
+      out.textContent = 'Generating...';
+      const r = await fetch(`${API}/api/cover-letter`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ job_title: title, company, name, experience: exp, skills })
+      }).catch(() => null);
+      if (r && r.ok) { const d = await r.json(); out.textContent = d.cover_letter; }
+      else out.textContent = 'Error — is the backend running?';
+    }
+
+    function copyCL() {
+      const t = document.getElementById('cl-output').textContent;
+      navigator.clipboard.writeText(t).then(() => showToast('✅ Copied to clipboard!'));
+    }
+
+    // RESUME
+    async function uploadResume(input) {
+      if (!input.files[0]) return;
+      const fd = new FormData(); fd.append('file', input.files[0]);
+      showToast('Parsing resume...');
+      const r = await fetch(`${API}/api/resume/parse`, { method: 'POST', body: fd }).catch(() => null);
+      if (!r || !r.ok) { showToast('Error uploading'); return; }
+      const d = (await r.json()).data;
+      document.getElementById('resume-result').style.display = 'block';
+      document.getElementById('resume-fields').innerHTML =
+        [['Name', d.name], ['Email', d.email], ['Phone', d.phone], ['Experience', d.experience]].map(([l, v]) =>
+          `<div style="background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:12px">
+      <div style="font-size:11px;color:var(--mt);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">${l}</div>
+      <div style="font-size:13px;font-weight:500">${v}</div></div>`).join('');
+      document.getElementById('resume-skills').innerHTML = (d.skills || []).map(s => `<span class="chip">${s}</span>`).join('');
+      // Pre-fill cover letter tab name/exp
+      document.getElementById('cl-name').value = d.name;
+      document.getElementById('cl-exp').value = d.experience;
+      document.getElementById('cl-skills').value = (d.skills || []).join(', ');
+      showToast('✅ Resume parsed! Skills extracted.');
+    }
+
+    // PROFILE
+    function loadProfile() {
+      const saved = localStorage.getItem('applyai_profile');
+      if (!saved) return;
+      const p = JSON.parse(saved);
+      const map = {
+        name: 'pf-name', email: 'pf-email', phone: 'pf-phone', location: 'pf-loc',
+        experience: 'pf-exp', currentSalary: 'pf-csal', expectedSalary: 'pf-esal',
+        noticePeriod: 'pf-notice', skills: 'pf-skills'
+      };
+      for (const [k, id] of Object.entries(map)) { const el = document.getElementById(id); if (el && p[k]) el.value = Array.isArray(p[k]) ? p[k].join(', ') : p[k]; }
+      // Pre-fill cover letter
+      if (p.name) document.getElementById('cl-name').value = p.name;
+      if (p.experience) document.getElementById('cl-exp').value = p.experience;
+      if (p.skills) document.getElementById('cl-skills').value = p.skills.join(', ');
+    }
+
+    async function saveProfile() {
+      const p = {
+        name: document.getElementById('pf-name').value,
+        email: document.getElementById('pf-email').value,
+        phone: document.getElementById('pf-phone').value,
+        location: document.getElementById('pf-loc').value,
+        experience: document.getElementById('pf-exp').value,
+        currentSalary: document.getElementById('pf-csal').value,
+        expectedSalary: document.getElementById('pf-esal').value,
+        noticePeriod: document.getElementById('pf-notice').value,
+        skills: document.getElementById('pf-skills').value.split(',').map(s => s.trim()).filter(Boolean),
+        job_titles: document.getElementById('pf-titles').value.split(',').map(s => s.trim()).filter(Boolean),
+        preferred_locations: document.getElementById('pf-locs').value.split(',').map(s => s.trim()).filter(Boolean),
+      };
+      localStorage.setItem('applyai_profile', JSON.stringify(p));
+      // Save to API
+      await fetch(`${API}/api/profile/save`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: USER.user_id, salary_min: 0, salary_max: 0, job_type: 'Full-time', ...p })
+      }).catch(() => { });
+      document.getElementById('prof-saved').style.display = 'block';
+      showToast('✅ Profile saved!');
+      setTimeout(() => document.getElementById('prof-saved').style.display = 'none', 3000);
+    }
+
+    // PAGE NAV
+    function showPage(name, el) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      if (el) el.classList.add('active');
+      if (name === 'applications') loadApplications();
+    }
+
+    // KEYBOARD ENTER to login
+    document.addEventListener('keydown', e => { if (e.key === 'Enter' && document.getElementById('auth-overlay').style.display !== 'none') doLogin(); });
+  </script>
+</body>
+
+</html>

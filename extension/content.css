@@ -1,0 +1,31 @@
+/* ApplyAI Content CSS v2 */
+@keyframes applyai-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes applyai-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, .4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(99, 102, 241, .2);
+  }
+}
+
+/* Filled field highlight */
+.applyai-filled {
+  outline: 2px solid rgba(99, 102, 241, .6) !important;
+  border-radius: 4px !important;
+  transition: outline .3s ease;
+}

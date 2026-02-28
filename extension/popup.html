@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --bg: #07070f;
+      --card: #0f0f1e;
+      --card2: #141428;
+      --border: rgba(255, 255, 255, .08);
+      --indigo: #6366f1;
+      --violet: #8b5cf6;
+      --green: #10b981;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --text: #f1f1ff;
+      --muted: #7070a0;
+      --soft: #b0b0d0;
+      --grad: linear-gradient(135deg, #6366f1, #8b5cf6)
+    }
+
+    body {
+      width: 360px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 13px
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--card);
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .logo {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -.3px
+    }
+
+    .logo span {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
+
+    .version {
+      font-size: 10px;
+      background: rgba(99, 102, 241, .15);
+      color: var(--indigo);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-weight: 600;
+      margin-left: 4px
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      margin-left: auto;
+      animation: pulse 2s infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .4
+      }
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      background: var(--card);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: .2s;
+      text-transform: uppercase;
+      letter-spacing: .4px
+    }
+
+    .tab.active {
+      color: var(--indigo);
+      border-bottom-color: var(--indigo)
+    }
+
+    .tab-content {
+      display: none;
+      padding: 14px
+    }
+
+    .tab-content.active {
+      display: block
+    }
+
+    /* PAGE DETECT */
+    .page-detect {
+      background: rgba(99, 102, 241, .1);
+      border: 1px solid rgba(99, 102, 241, .25);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--indigo);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    /* PROFILE CARD */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px
+    }
+
+    .pfield {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px
+    }
+
+    .pfield label {
+      display: block;
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 4px
+    }
+
+    .pfield input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      width: 100%;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none
+    }
+
+    .pfield input::placeholder {
+      color: var(--muted)
+    }
+
+    .pfield-full {
+      grid-column: span 2
+    }
+
+    .skills-input {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px
+    }
+
+    .skills-input label {
+      display: block;
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 6px
+    }
+
+    .skills-input input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      width: 100%;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none
+    }
+
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px
+    }
+
+    .chip {
+      background: rgba(99, 102, 241, .15);
+      color: var(--indigo);
+      border: 1px solid rgba(99, 102, 241, .25);
+      border-radius: 5px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 500
+    }
+
+    /* BUTTONS */
+    .btn {
+      width: 100%;
+      padding: 11px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: .2s;
+      margin-bottom: 8px
+    }
+
+    .btn-primary {
+      background: var(--grad);
+      color: #fff
+    }
+
+    .btn-primary:hover {
+      opacity: .9
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, .05);
+      color: var(--text);
+      border: 1px solid var(--border)
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--indigo)
+    }
+
+    .btn-icon {
+      margin-right: 6px
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, .1);
+      color: var(--red);
+      border: 1px solid rgba(239, 68, 68, .2)
+    }
+
+    /* PORTALS */
+    .portal-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      transition: .2s;
+      cursor: pointer
+    }
+
+    .portal-row:hover {
+      border-color: rgba(99, 102, 241, .3)
+    }
+
+    .portal-info {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .portal-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px
+    }
+
+    .portal-name {
+      font-weight: 600;
+      font-size: 13px
+    }
+
+    .portal-status {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    .toggle {
+      width: 38px;
+      height: 22px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+      transition: .3s
+    }
+
+    .toggle.on {
+      background: var(--indigo);
+      border-color: var(--indigo)
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: .3s;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .4)
+    }
+
+    .toggle.on::after {
+      left: 18px
+    }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px
+    }
+
+    .stat-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center
+    }
+
+    .stat-num {
+      font-size: 22px;
+      font-weight: 800;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 2px
+    }
+
+    /* SAVED MSG */
+    .saved-msg {
+      background: rgba(16, 185, 129, .1);
+      border: 1px solid rgba(16, 185, 129, .25);
+      color: var(--green);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 8px;
+      display: none
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="logo">Apply<span>AI</span><span class="version">v2</span></div>
+    <div style="font-size:11px;color:var(--muted);margin-left:4px">Extension</div>
+    <div class="live-dot" id="live-dot"></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('apply')">Apply</div>
+    <div class="tab" onclick="switchTab('profile')">Profile</div>
+    <div class="tab" onclick="switchTab('portals')">Portals</div>
+    <div class="tab" onclick="switchTab('stats')">Stats</div>
+  </div>
+
+  <!-- APPLY TAB -->
+  <div class="tab-content active" id="tab-apply">
+    <div class="page-detect" id="page-detect">🔍 Detecting current page...</div>
+
+    <button class="btn btn-primary" id="full-apply-btn" onclick="fullApply()">
+      <span class="btn-icon">🚀</span>Full Auto-Apply (Fill + Submit)
+    </button>
+    <button class="btn btn-ghost" id="fill-btn" onclick="fillCurrentPage()">
+      <span class="btn-icon">⚡</span>Fill Only (No Submit)
+    </button>
+    <button class="btn btn-ghost" onclick="openDashboard()">
+      <span class="btn-icon">📊</span>Open Dashboard
+    </button>
+    <div
+      style="display:flex;align-items:center;justify-content:space-between;background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.18);border-radius:9px;padding:10px 12px;margin-top:2px">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#10b981">🤖 Auto-Submit</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">Clicks Submit after filling</div>
+      </div>
+      <div class="toggle on" id="tog-auto-submit" onclick="toggleAutoSubmit(this)"></div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-top:4px">
+      <div
+        style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px">
+        Profile Preview</div>
+      <div style="font-size:12px;display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:var(--muted)">Name</span><span id="pv-name" style="font-weight:500">Not set</span>
+      </div>
+      <div style="font-size:12px;display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:var(--muted)">Email</span><span id="pv-email" style="font-weight:500">Not set</span>
+      </div>
+      <div style="font-size:12px;display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="color:var(--muted)">Experience</span><span id="pv-exp" style="font-weight:500">—</span>
+      </div>
+      <div class="chips-row" id="pv-skills"></div>
+    </div>
+
+    <div
+      style="margin-top:10px;padding:10px;background:rgba(99,102,241,.06);border-radius:8px;font-size:11px;color:var(--muted);line-height:1.6">
+      💡 Visit a job page on LinkedIn, Naukri, or Foundit then click <strong
+        style="color:var(--indigo)">Auto-Fill</strong> to fill the application form with your profile details.
+    </div>
+  </div>
+
+  <!-- PROFILE TAB -->
+  <div class="tab-content" id="tab-profile">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Your info is saved locally and used to auto-fill
+      forms.</div>
+    <div class="profile-grid">
+      <div class="pfield pfield-full">
+        <label>Full Name</label>
+        <input type="text" id="p-name" placeholder="Rahul Sharma" />
+      </div>
+      <div class="pfield">
+        <label>Email</label>
+        <input type="email" id="p-email" placeholder="you@email.com" />
+      </div>
+      <div class="pfield">
+        <label>Phone</label>
+        <input type="tel" id="p-phone" placeholder="9876543210" />
+      </div>
+      <div class="pfield">
+        <label>Experience (yrs)</label>
+        <input type="text" id="p-exp" placeholder="3" />
+      </div>
+      <div class="pfield">
+        <label>Location / City</label>
+        <input type="text" id="p-loc" placeholder="Bangalore" />
+      </div>
+      <div class="pfield">
+        <label>Notice Period (days)</label>
+        <input type="text" id="p-notice" placeholder="30" />
+      </div>
+      <div class="pfield">
+        <label>Current Salary (LPA)</label>
+        <input type="text" id="p-curr-sal" placeholder="8" />
+      </div>
+      <div class="pfield">
+        <label>Expected Salary (LPA)</label>
+        <input type="text" id="p-exp-sal" placeholder="14" />
+      </div>
+      <div class="pfield pfield-full">
+        <label>Job Title / Role</label>
+        <input type="text" id="p-jobtitle" placeholder="Senior React Developer" />
+      </div>
+    </div>
+    <div class="skills-input">
+      <label>Skills (comma separated)</label>
+      <input type="text" id="p-skills" placeholder="React, JavaScript, Node.js, Python" />
+    </div>
+
+    <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile</button>
+    <div class="saved-msg" id="saved-msg">✅ Profile saved! Ready to auto-fill forms.</div>
+  </div>
+
+  <!-- PORTALS TAB -->
+  <div class="tab-content" id="tab-portals">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Enable/disable auto-fill per portal. The extension
+      activates when you visit these sites.</div>
+
+    <div class="portal-row" onclick="window.open('https://www.linkedin.com/jobs','_blank')">
+      <div class="portal-info">
+        <div class="portal-icon" style="background:rgba(10,102,194,.2)">💼</div>
+        <div>
+          <div class="portal-name">LinkedIn Jobs</div>
+          <div class="portal-status">Easy Apply auto-fill</div>
+        </div>
+      </div>
+      <div class="toggle on" id="tog-linkedin" onclick="event.stopPropagation();togglePortal(this,'linkedin')"></div>
+    </div>
+    <div class="portal-row" onclick="window.open('https://www.naukri.com','_blank')">
+      <div class="portal-info">
+        <div class="portal-icon" style="background:rgba(234,88,12,.2)">🔶</div>
+        <div>
+          <div class="portal-name">Naukri.com</div>
+          <div class="portal-status">Quick Apply auto-fill</div>
+        </div>
+      </div>
+      <div class="toggle on" id="tog-naukri" onclick="event.stopPropagation();togglePortal(this,'naukri')"></div>
+    </div>
+    <div class="portal-row" onclick="window.open('https://www.foundit.in','_blank')">
+      <div class="portal-info">
+        <div class="portal-icon" style="background:rgba(22,163,74,.2)">🟢</div>
+        <div>
+          <div class="portal-name">Foundit (Monster)</div>
+          <div class="portal-status">Auto Apply form fill</div>
+        </div>
+      </div>
+      <div class="toggle on" id="tog-foundit" onclick="event.stopPropagation();togglePortal(this,'foundit')"></div>
+    </div>
+    <div class="portal-row" onclick="window.open('https://in.indeed.com','_blank')">
+      <div class="portal-info">
+        <div class="portal-icon" style="background:rgba(99,102,241,.2)">🌐</div>
+        <div>
+          <div class="portal-name">Indeed India</div>
+          <div class="portal-status">Application form fill</div>
+        </div>
+      </div>
+      <div class="toggle" id="tog-indeed" onclick="event.stopPropagation();togglePortal(this,'indeed')"></div>
+    </div>
+
+    <button class="btn btn-ghost" style="margin-top:8px" onclick="window.open('https://www.internshala.com','_blank')">
+      🎓 Also supports Internshala
+    </button>
+  </div>
+
+  <!-- STATS TAB -->
+  <div class="tab-content" id="tab-stats">
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num" id="s-today">0</div>
+        <div class="stat-label">Applied Today</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="s-total">0</div>
+        <div class="stat-label">Total Applied</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="s-linkedin">0</div>
+        <div class="stat-label">LinkedIn</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="s-naukri">0</div>
+        <div class="stat-label">Naukri</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" onclick="openDashboard()">📊 Full Dashboard</button>
+    <button class="btn btn-danger" onclick="resetStats()">🗑️ Reset Stats</button>
+  </div>
+
+  <script>
+    function switchTab(name) {
+      document.querySelectorAll('.tab').forEach((t, i) => {
+        const tabs = ['apply', 'profile', 'portals', 'stats'];
+        t.classList.toggle('active', tabs[i] === name);
+      });
+      document.querySelectorAll('.tab-content').forEach(c => {
+        c.classList.toggle('active', c.id === 'tab-' + name);
+      });
+    }
+
+    function openDashboard() {
+      chrome.tabs.create({ url: chrome.runtime.getURL('../frontend/index.html') });
+    }
+
+    function fullApply() {
+      const btn = document.getElementById('full-apply-btn');
+      btn.textContent = '⏳ Applying...'; btn.disabled = true;
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'full_apply' }, response => {
+          btn.disabled = false;
+          if (chrome.runtime.lastError || !response) {
+            btn.textContent = '⚠️ Go to a job page first';
+            setTimeout(() => { btn.textContent = '🚀 Full Auto-Apply (Fill + Submit)'; }, 2500);
+            return;
+          }
+          btn.textContent = '✅ Submitting...';
+          setTimeout(() => { btn.textContent = '🚀 Full Auto-Apply (Fill + Submit)'; }, 5000);
+        });
+      });
+    }
+
+    function toggleAutoSubmit(el) {
+      el.classList.toggle('on');
+      const enabled = el.classList.contains('on');
+      chrome.storage.local.get(['applyai_settings'], d => {
+        const s = d.applyai_settings || {};
+        s.auto_submit = enabled;
+        chrome.storage.local.set({ applyai_settings: s });
+      });
+    }
+
+    function fillCurrentPage() {
+      const btn = document.getElementById('fill-btn');
+      btn.textContent = '⏳ Filling...'; btn.disabled = true;
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'fill_form' }, response => {
+          btn.disabled = false;
+          if (chrome.runtime.lastError || !response) {
+            btn.textContent = '⚠️ Go to a job page first';
+            setTimeout(() => { btn.textContent = '⚡ Auto-Fill This Page' }, 2000);
+            return;
+          }
+          if (response.success) {
+            btn.textContent = `✅ Filled ${response.filled} fields!`;
+            // Update stats
+            chrome.storage.local.get(['applyai_stats'], d => {
+              const stats = d.applyai_stats || { today: 0, total: 0, linkedin: 0, naukri: 0, foundit: 0 };
+              stats.today++; stats.total++;
+              const host = tabs[0].url || '';
+              if (host.includes('linkedin')) stats.linkedin++;
+              if (host.includes('naukri')) stats.naukri++;
+              if (host.includes('foundit')) stats.foundit++;
+              chrome.storage.local.set({ applyai_stats: stats });
+              chrome.runtime.sendMessage({ action: 'update_badge', count: stats.today });
+            });
+          } else {
+            btn.textContent = '⚠️ No fillable fields found';
+          }
+          setTimeout(() => { btn.textContent = '⚡ Auto-Fill This Page' }, 2500);
+        });
+      });
+    }
+
+    function saveProfile() {
+      const profile = {
+        name: document.getElementById('p-name').value,
+        email: document.getElementById('p-email').value,
+        phone: document.getElementById('p-phone').value,
+        experience: document.getElementById('p-exp').value,
+        location: document.getElementById('p-loc').value,
+        noticePeriod: document.getElementById('p-notice').value,
+        currentSalary: document.getElementById('p-curr-sal').value,
+        expectedSalary: document.getElementById('p-exp-sal').value,
+        jobTitle: document.getElementById('p-jobtitle').value,
+        skills: document.getElementById('p-skills').value.split(',').map(s => s.trim()).filter(Boolean),
+      };
+      chrome.storage.local.set({ applyai_profile: profile }, () => {
+        const msg = document.getElementById('saved-msg');
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 3000);
+        loadProfilePreview(profile);
+      });
+    }
+
+    function togglePortal(el, name) {
+      el.classList.toggle('on');
+      chrome.storage.local.get(['applyai_settings'], d => {
+        const s = d.applyai_settings || { portals: {} };
+        s.portals[name] = el.classList.contains('on');
+        chrome.storage.local.set({ applyai_settings: s });
+      });
+    }
+
+    function resetStats() {
+      chrome.storage.local.set({ applyai_stats: { today: 0, total: 0, linkedin: 0, naukri: 0, foundit: 0 } }, () => {
+        document.getElementById('s-today').textContent = '0';
+        document.getElementById('s-total').textContent = '0';
+        document.getElementById('s-linkedin').textContent = '0';
+        document.getElementById('s-naukri').textContent = '0';
+      });
+    }
+
+    function loadProfilePreview(p) {
+      document.getElementById('pv-name').textContent = p.name || 'Not set';
+      document.getElementById('pv-email').textContent = p.email || 'Not set';
+      document.getElementById('pv-exp').textContent = p.experience ? (p.experience + ' yrs') : '—';
+      const chips = (p.skills || []).slice(0, 5).map(s => `<span class="chip">${s}</span>`).join('');
+      document.getElementById('pv-skills').innerHTML = chips;
+    }
+
+    // INIT — load data
+    chrome.storage.local.get(['applyai_profile', 'applyai_settings', 'applyai_stats'], data => {
+      // Profile
+      const p = data.applyai_profile || {};
+      if (p.name) {
+        document.getElementById('p-name').value = p.name;
+        document.getElementById('p-email').value = p.email || '';
+        document.getElementById('p-phone').value = p.phone || '';
+        document.getElementById('p-exp').value = p.experience || '';
+        document.getElementById('p-loc').value = p.location || '';
+        document.getElementById('p-notice').value = p.noticePeriod || '';
+        document.getElementById('p-curr-sal').value = p.currentSalary || '';
+        document.getElementById('p-exp-sal').value = p.expectedSalary || '';
+        document.getElementById('p-jobtitle').value = p.jobTitle || '';
+        document.getElementById('p-skills').value = (p.skills || []).join(', ');
+        loadProfilePreview(p);
+      }
+      // Settings
+      const s = data.applyai_settings || { portals: { naukri: true, linkedin: true, foundit: true, indeed: false } };
+      if (s.portals) {
+        ['linkedin', 'naukri', 'foundit', 'indeed'].forEach(name => {
+          const tog = document.getElementById('tog-' + name);
+          if (tog) tog.classList.toggle('on', s.portals[name] !== false);
+        });
+      }
+      // Stats
+      const st = data.applyai_stats || { today: 0, total: 0, linkedin: 0, naukri: 0 };
+      document.getElementById('s-today').textContent = st.today || 0;
+      document.getElementById('s-total').textContent = st.total || 0;
+      document.getElementById('s-linkedin').textContent = st.linkedin || 0;
+      document.getElementById('s-naukri').textContent = st.naukri || 0;
+    });
+
+    // Detect current page
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      const url = (tabs[0] && tabs[0].url) || '';
+      const el = document.getElementById('page-detect');
+      if (url.includes('linkedin.com/jobs')) el.innerHTML = '💼 <strong>LinkedIn Jobs</strong> — Ready to auto-fill Easy Apply';
+      else if (url.includes('linkedin.com')) el.innerHTML = '💼 <strong>LinkedIn</strong> — Navigate to a job to auto-fill';
+      else if (url.includes('naukri.com')) el.innerHTML = '🔶 <strong>Naukri.com</strong> — Ready to auto-fill application';
+      else if (url.includes('foundit.in')) el.innerHTML = '🟢 <strong>Foundit</strong> — Ready to auto-fill Quick Apply';
+      else if (url.includes('indeed')) el.innerHTML = '🌐 <strong>Indeed India</strong> — Ready to auto-fill';
+      else if (url.includes('internshala')) el.innerHTML = '🎓 <strong>Internshala</strong> — Ready to auto-fill';
+      else el.innerHTML = '⚠️ <strong>Visit a job portal</strong> to use auto-fill';
+    });
+  </script>
+</body>
+
+</html>

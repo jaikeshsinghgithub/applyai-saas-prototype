@@ -1,0 +1,59 @@
+{
+  "manifest_version": 3,
+  "name": "ApplyAI — Auto Job Applier",
+  "version": "2.0.0",
+  "description": "Auto-fill job applications on LinkedIn, Naukri, Foundit and more. Save hours every day.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "notifications",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.naukri.com/*",
+    "https://www.linkedin.com/*",
+    "https://www.foundit.in/*",
+    "https://www.monster.com/*",
+    "https://in.indeed.com/*",
+    "https://www.indeed.com/*",
+    "https://internshala.com/*",
+    "http://localhost:8000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "ApplyAI — Auto Job Applier"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.naukri.com/*",
+        "https://www.linkedin.com/jobs/*",
+        "https://www.foundit.in/*",
+        "https://www.monster.com/*",
+        "https://in.indeed.com/*",
+        "https://internshala.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
