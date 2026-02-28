@@ -1,7 +1,9 @@
 # ApplyAI — Job Application Automation SaaS (Prototype)
 
-![ApplyAI Banner](https://via.placeholder.com/800x200.png?text=ApplyAI+-+Job+Automation) 
-<!-- Replace the banner above with a real screenshot of your dashboard -->
+![ApplyAI Dashboard](screenshot_dashboard.png)
+
+### 🗂️ Landing Page View
+![ApplyAI Landing Page](screenshot_landing.png)
 
 ApplyAI is a full-stack job application automation prototype designed for the Indian job market. It includes a FastAPI backend, a responsive frontend dashboard, and a companion Chrome Extension to streamline the job search and application process.
 
