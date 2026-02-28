@@ -30,6 +30,81 @@ ApplyAI is a full-stack job application automation prototype designed for the In
 *   **Frontend:** Vanilla JavaScript, HTML5, CSS3, Tailwind (or custom CSS)
 *   **Browser Extension:** Chrome Manifest V3, JavaScript
 
+## 🏗️ Architecture & Flow Diagrams
+
+### 1. High-Level Architecture
+```mermaid
+graph TD
+    subgraph Client [Client Side]
+        UI[Frontend Dashboard<br>HTML / JS / CSS]
+        Ext[Chrome Extension<br>Manifest V3]
+    end
+
+    subgraph Server [Backend API]
+        FastAPI[FastAPI Server]
+        ResumeParser[Resume Parser AI]
+        CoverLetter[Cover Letter Generator]
+        DB[(In-Memory DB<br>Profiles/Jobs)]
+    end
+
+    subgraph External [External APIs]
+        Adzuna[Adzuna Job API]
+        Portals[Job Portals<br>LinkedIn, Naukri, etc.]
+    end
+
+    UI <-->|REST API| FastAPI
+    Ext <-->|REST API| FastAPI
+    Ext -->|DOM Manipulation| Portals
+    FastAPI -->|Fetch Live Jobs| Adzuna
+    FastAPI --> ResumeParser
+    FastAPI --> CoverLetter
+    FastAPI <--> DB
+```
+
+### 2. User Journey Flow
+```mermaid
+flowchart TD
+    A[User Visits Landing Page] --> B[Logs in / Signs Up]
+    B --> C{Dashboard Actions}
+    C -->|Uploads PDF| D[AI Parses Resume & Extracts Skills]
+    D --> E[Fills User Profile]
+    C -->|Creates Profile Manually| E
+    C -->|Searches Jobs| F[Adzuna API Fetches Matches]
+    F --> G[Jobs Displayed with Match %]
+    G --> H[User Clicks 'Apply']
+    H --> I[Application State Saved to Tracker]
+    C -->|Needs Cover Letter| J[AI Generates Personalized Letter]
+```
+
+### 3. Application Sequence Diagram
+```mermaid
+sequenceDiagram
+    participant User
+    participant Ext as Chrome Extension
+    participant Dash as Frontend Dashboard
+    participant API as FastAPI Backend
+    participant Adzuna as Adzuna API
+
+    User->>Dash: Login
+    Dash->>API: POST /api/auth/login
+    API-->>Dash: Auth Token & Profile Data
+    
+    User->>Dash: Search for Jobs
+    Dash->>API: GET /api/jobs?q=...
+    API->>Adzuna: Fetch live job postings
+    Adzuna-->>API: JSON Job Results
+    API-->>Dash: Formatted Job Cards
+    
+    User->>Dash: Click 'Apply Selected'
+    Dash->>API: POST /api/apply
+    API-->>Dash: Updated Application Tracker
+    
+    User->>Ext: Open extension on LinkedIn
+    Ext->>API: Fetch User Profile
+    API-->>Ext: Return Profile Data
+    Ext->>Ext: Auto-fill Job Form Fields
+```
+
 ## 🛠️ How to Run Locally
 
 ### 1. Start the Backend
