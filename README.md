@@ -133,8 +133,26 @@ export ADZUNA_APP_ID="your_app_id"
 export ADZUNA_APP_KEY="your_app_key"
 ```
 
-## 🤝 Contributing
-This is an open-source prototype. Feel free to fork the repository, integrate a real database, or build out the Playwright/Selenium automation scripts for the `auto-apply` feature!
+## ⚖️ Disclaimer & Privacy
+
+**Disclaimer:** This project is a **prototype/portfolio project** intended for educational and demonstration purposes only. It is not currently a production-ready application. 
+* All database interactions are mocked using in-memory structures and run completely locally on your machine.
+* The "Auto-Apply" feature is a simulation of the UI/UX pipeline and does not currently log into your job portal accounts or submit applications on your behalf.
+* The creators hold no liability for any issues arising from the use of this code, or any attempts to modify it to interact with third-party job boards against their Terms of Service.
+
+**Privacy:** 
+* No personal data, resumes, or application metrics are stored on any external server. 
+* All data entered into this platform remains on your local machine (`http://localhost:8000`) and is wiped whenever the backend server is restarted. 
+
+## 🤝 Contributing & Permissions
+This is an open-source prototype. You are granted full permission to download, modify, fork, and use this codebase for your own educational purposes or to build upon it. 
+
+If you wish to integrate a real database, or build out the Playwright/Selenium automation scripts for the `auto-apply` feature, feel free to submit a Pull Request!
+
+## 📬 Contact the Developer
+Designed and developed by **Jaikesh Singh**.
+If you have questions, feedback, or would like to discuss this project, feel free to reach out:
+* **Email:** [jaikeshsingh@gmail.com](mailto:jaikeshsingh@gmail.com)
 
 ## 📜 License
 [MIT License](LICENSE)
